@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 
 const categoriasRoutes = require('./routes/categoriasRoutes');
 const clientesRoutes = require('./routes/clientesRoutes');
@@ -20,6 +21,7 @@ const app = express();
 
 // Middlewares
 app.use(logger);
+app.use(cors());
 app.use(express.json({ limit: '100kb' }));
 
 // Ruta principal
