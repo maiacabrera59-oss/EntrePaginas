@@ -23,7 +23,7 @@ app.use('/api/libros', librosRoutes);
 app.use('/api', gestionRoutes);
 app.use('/api/ventas', ventasRoutes);
 
-app.use(express.static(path.join(__dirname, '../../front')));
+//app.use(express.static(path.join(__dirname, '../../front')));
 
 app.use((req, res) => {
     res.status(404).json({

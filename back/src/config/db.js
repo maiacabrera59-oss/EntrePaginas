@@ -20,7 +20,7 @@ const dbConfig = {
 
 let poolPromise = null;
 
-function getConnection() {
+function obtenerConexion() {
   if (!poolPromise) {
     poolPromise = sql.connect(dbConfig).catch((error) => {
       poolPromise = null;
@@ -30,4 +30,4 @@ function getConnection() {
   return poolPromise;
 }
 
-module.exports = { sql, getConnection };
+module.exports = { sql, obtenerConexion };

@@ -3,7 +3,7 @@ const controller = require('../controllers/gestionController');
 const asyncHandler = require('../middlewares/asyncHandler');
 const { validarBusquedaVentas } = require('../middlewares/errores');
 
-router.get('/ventas', asyncHandler(controller.listarVentas));
+router.get('/', asyncHandler(controller.listarVentas));
 
 router.get(
     '/ventas/buscar',
