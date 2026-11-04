@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es-AR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gestión de ventas de la librería EntrePáginas">
+    <title>Cada venta, en su lugar. · EntrePáginas</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body data-page="tablero">
+    <a class="skip" href="#contenido">Ir al contenido</a>
+
+    <aside class="sidebar">
+        <a class="brand" href="index.html">
+            <span class="brand-icon">▤</span>EntrePáginas
+            <span class="brand-sub">LIBRERÍA · GESTIÓN</span>
+        </a>
+        <div class="nav-label">TU LIBRERÍA</div>
+        <nav aria-label="Principal">
+            <a href="index.html" data-page="venta"><span>＋</span> Nueva venta</a>
+            <a href="tablero.html" data-page="tablero"><span>▦</span> Gestión de ventas</a>
+            <a href="estadisticas.html" data-page="estadisticas"><span>▥</span> Estadísticas</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <span class="little-book">❧</span>
+            <p>Cada libro,<br>una nueva historia.</p>
+            <small>EntrePáginas</small>
+        </div>
+    </aside>
+
+    <main id="contenido">
+        <header class="topbar">
+            <span>LIBROS QUE ENCUENTRAN SU LUGAR</span>
+            <span class="location">EntrePáginas / Gestión</span>
+        </header>
+
+        <header class="page-heading">
+            <p class="eyebrow">TU NEGOCIO, A SIMPLE VISTA</p>
+            <h1>Cada venta, en su lugar.</h1>
+            <p>Consultá los pedidos y acompañá cada entrega.</p>
+        </header>
+
+        <div id="mensaje" role="status" aria-live="polite" hidden></div>
+
+        <section class="panel">
+            <div class="section-title">
+                <h2>Gestión de ventas</h2>
+                <a class="button" href="index.html">＋ Nueva venta</a>
+            </div>
+
+            <form id="filtros" class="filters">
+                <label class="search">Cliente
+                    <input name="textoCliente" maxlength="80" placeholder="Nombre, apellido o DNI">
+                </label>
+                <label>Estado
+                    <select name="estado">
+                        <option value="">Todos los estados</option>
+                        <option value="preparación">En preparación</option>
+                        <option value="listo">Listo</option>
+                        <option value="entregado">Entregado</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                </label>
+                <label>Desde
+                    <input type="date" name="desde">
+                </label>
+                <label>Hasta
+                    <input type="date" name="hasta">
+                </label>
+                <button class="button">Filtrar</button>
+                <button type="reset" class="button secondary">Limpiar</button>
+            </form>
+
+            <p id="cantidad" class="muted" aria-live="polite"></p>
+
+            <div class="table-wrap">
+                <table>
+                    <caption class="sr-only">Ventas de la librería</caption>
+                    <thead>
+                        <tr>
+                            <th>Venta</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ventas"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            EntrePáginas <span>Hecho para acompañar tu librería.</span>
+        </footer>
+    </main>
+
+    <script type="module" src="js/tablero.js"></script>
+</body>
+
+</html>

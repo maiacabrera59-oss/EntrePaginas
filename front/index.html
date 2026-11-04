@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es-AR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gestión de ventas de la librería EntrePáginas">
+    <title>Nueva venta · EntrePáginas</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body data-page="venta">
+    <a class="skip" href="#contenido">Ir al contenido</a>
+
+    <aside class="sidebar">
+        <a class="brand" href="index.html">
+            <span class="brand-icon">▤</span>EntrePáginas
+            <span class="brand-sub">LIBRERÍA · GESTIÓN</span>
+        </a>
+        <div class="nav-label">TU LIBRERÍA</div>
+        <nav aria-label="Principal">
+            <a href="index.html" data-page="venta"><span>＋</span> Nueva venta</a>
+            <a href="tablero.html" data-page="tablero"><span>▦</span> Gestión de ventas</a>
+            <a href="estadisticas.html" data-page="estadisticas"><span>▥</span> Estadísticas</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <span class="little-book">❧</span>
+            <p>Cada libro,<br>una nueva historia.</p>
+            <small>EntrePáginas</small>
+        </div>
+    </aside>
+
+    <main id="contenido">
+        <header class="topbar">
+            <span>LIBROS QUE ENCUENTRAN SU LUGAR</span>
+            <span class="location">EntrePáginas / Gestión</span>
+        </header>
+
+        <header class="page-heading">
+            <p class="eyebrow">PUNTO DE VENTA</p>
+            <h1>Una nueva historia empieza acá.</h1>
+            <p>Elegí los libros y prepará la próxima venta.</p>
+        </header>
+
+        <div id="mensaje" role="status" aria-live="polite" hidden></div>
+
+        <div class="sale-layout">
+            <section>
+                <div class="section-title">
+                    <h2>Catálogo de libros</h2>
+                    <span id="cantidad" class="muted"></span>
+                </div>
+                <form id="filtros" class="filters">
+                    <label class="search">Buscar un libro
+                        <input name="texto" placeholder="Título, autor o código…" maxlength="80">
+                    </label>
+                    <label>Categoría
+                        <select name="idCategoria" id="categorias">
+                            <option value="">Todas las categorías</option>
+                        </select>
+                    </label>
+                    <button class="button secondary">Buscar</button>
+                    <label class="check">
+                        <input type="checkbox" name="soloConStock" value="true"> Solo con stock
+                    </label>
+                </form>
+                <div id="catalogo" class="book-grid">
+                    <p class="empty">Cargando el catálogo…</p>
+                </div>
+            </section>
+
+            <aside class="order panel">
+                <div class="section-title">
+                    <h2>Tu venta</h2>
+                    <span class="step">01</span>
+                </div>
+                <label for="cliente">Cliente</label>
+                <select id="cliente">
+                    <option value="">Seleccioná un cliente</option>
+                </select>
+                <div id="resumen"></div>
+                <button id="registrar" class="button wide" disabled>Registrar venta <span>↗</span></button>
+                <p class="footnote">El importe definitivo se calcula al registrar la venta.</p>
+            </aside>
+        </div>
+
+        <footer>
+            EntrePáginas <span>Hecho para acompañar tu librería.</span>
+        </footer>
+    </main>
+
+    <script type="module" src="js/venta.js"></script>
+</body>
+
+</html>

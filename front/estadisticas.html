@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es-AR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gestión de ventas de la librería EntrePáginas">
+    <title>Los números también cuentan historias. · EntrePáginas</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body data-page="estadisticas">
+    <a class="skip" href="#contenido">Ir al contenido</a>
+
+    <aside class="sidebar">
+        <a class="brand" href="index.html">
+            <span class="brand-icon">▤</span>EntrePáginas
+            <span class="brand-sub">LIBRERÍA · GESTIÓN</span>
+        </a>
+        <div class="nav-label">TU LIBRERÍA</div>
+        <nav aria-label="Principal">
+            <a href="index.html" data-page="venta"><span>＋</span> Nueva venta</a>
+            <a href="tablero.html" data-page="tablero"><span>▦</span> Gestión de ventas</a>
+            <a href="estadisticas.html" data-page="estadisticas"><span>▥</span> Estadísticas</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <span class="little-book">❧</span>
+            <p>Cada libro,<br>una nueva historia.</p>
+            <small>EntrePáginas</small>
+        </div>
+    </aside>
+
+    <main id="contenido">
+        <header class="topbar">
+            <span>LIBROS QUE ENCUENTRAN SU LUGAR</span>
+            <span class="location">EntrePáginas / Gestión</span>
+        </header>
+
+        <header class="page-heading">
+            <p class="eyebrow">TU NEGOCIO, A SIMPLE VISTA</p>
+            <h1>Los números también cuentan historias.</h1>
+            <p>Conocé las ventas de tu librería por categoría.</p>
+        </header>
+
+        <div id="mensaje" role="status" aria-live="polite" hidden></div>
+
+        <section class="panel">
+            <div class="section-title">
+                <div>
+                    <p class="eyebrow">PANORAMA DE LA LIBRERÍA</p>
+                    <h2>Ventas por categoría</h2>
+                </div>
+                <button id="actualizar" class="button secondary">↻ Actualizar</button>
+            </div>
+
+            <p class="muted">Resumen histórico de todas las ventas, incluidas las canceladas, según la consulta del
+                sistema.</p>
+
+            <div class="table-wrap">
+                <table>
+                    <caption class="sr-only">Estadísticas históricas por categoría</caption>
+                    <thead>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Ventas</th>
+                            <th>Unidades vendidas</th>
+                            <th>Total vendido</th>
+                        </tr>
+                    </thead>
+                    <tbody id="estadisticas"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            EntrePáginas <span>Hecho para acompañar tu librería.</span>
+        </footer>
+    </main>
+
+    <script type="module" src="js/estadisticas.js"></script>
+</body>
+
+</html>
