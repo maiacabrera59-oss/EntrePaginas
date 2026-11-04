@@ -1,7 +1,32 @@
+
+const fs = require("fs");
+const path = require("path");
+
+const NO_EXISTE = [50002, 50007, 50010];
+
+const CARPETA_LOGS = path.join(__dirname, "../../logs");
+const ARCHIVO_ERRORES = path.join(CARPETA_LOGS, "errores.log");
+
 function errorHttp(estado, mensaje) {
     const error = new Error(mensaje);
     error.status = estado;
     return error;
+}
+
+function registrarError(error, req) {
+    const numero = Number(
+        error.originalError?.info?.number ?? error.number
+    );
+
+    const linea = `[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`
+        + ` -> ${numero || "sin código"} | ${error.message}\n`;
+
+    try {
+        fs.mkdirSync(CARPETA_LOGS, { recursive: true });
+        fs.appendFileSync(ARCHIVO_ERRORES, linea);
+    } catch (errorDeLog) {
+        console.error("No se pudo escribir el log:", errorDeLog.message);
+    }
 }
 
 function enteroPositivo(valor, campo) {
@@ -10,9 +35,9 @@ function enteroPositivo(valor, campo) {
     if (
         valor === undefined ||
         valor === null ||
-        typeof valor === 'boolean' ||
-        (typeof valor !== 'string' && typeof valor !== 'number') ||
-        (typeof valor === 'string' && !/^\d+$/.test(valor)) ||
+        typeof valor === "boolean" ||
+        (typeof valor !== "string" && typeof valor !== "number") ||
+        (typeof valor === "string" && !/^\d+$/.test(valor)) ||
         !Number.isSafeInteger(numero) ||
         numero <= 0 ||
         numero > 2147483647
@@ -24,11 +49,11 @@ function enteroPositivo(valor, campo) {
 }
 
 function textoOpcional(valor, campo, maximo) {
-    if (valor === undefined || valor === '') {
+    if (valor === undefined || valor === "") {
         return null;
     }
 
-    if (typeof valor !== 'string' || valor.length > maximo) {
+    if (typeof valor !== "string" || valor.length > maximo) {
         throw errorHttp(400, `${campo} no es válido.`);
     }
 
@@ -36,12 +61,12 @@ function textoOpcional(valor, campo, maximo) {
 }
 
 function fechaOpcional(valor, campo) {
-    if (valor === undefined || valor === '') {
+    if (valor === undefined || valor === "") {
         return null;
     }
 
     if (
-        typeof valor !== 'string' ||
+        typeof valor !== "string" ||
         !/^\d{4}-\d{2}-\d{2}$/.test(valor)
     ) {
         throw errorHttp(400, `${campo} debe tener formato AAAA-MM-DD.`);
@@ -60,59 +85,29 @@ function fechaOpcional(valor, campo) {
     return valor;
 }
 
-function validarBusquedaLibros(req, res, next) {
-    const { texto, idCategoria, soloConStock } = req.query;
-
-    let categoria = null;
-    let conStock = null;
-
-    if (idCategoria !== undefined && idCategoria !== '') {
-        categoria = enteroPositivo(idCategoria, 'idCategoria');
-    }
-
-    if (soloConStock !== undefined && soloConStock !== '') {
-        if (
-            typeof soloConStock !== 'string' ||
-            !['true', 'false', '1', '0'].includes(soloConStock)
-        ) {
-            throw errorHttp(400, 'soloConStock debe ser true o false.');
-        }
-
-        conStock = ['true', '1'].includes(soloConStock);
-    }
-
-    req.datosValidados = {
-        texto: textoOpcional(texto, 'texto', 80),
-        idCategoria: categoria,
-        soloConStock: conStock
-    };
-
-    next();
-}
-
 function validarBusquedaVentas(req, res, next) {
     const { estado, textoCliente, desde, hasta } = req.query;
 
     const estados = [
-        'preparación',
-        'listo',
-        'entregado',
-        'cancelado'
+        "preparación",
+        "listo",
+        "entregado",
+        "cancelado"
     ];
 
     if (
         estado !== undefined &&
-        estado !== '' &&
-        (typeof estado !== 'string' || !estados.includes(estado))
+        estado !== "" &&
+        (typeof estado !== "string" || !estados.includes(estado))
     ) {
-        throw errorHttp(400, 'El estado de venta no es válido.');
+        throw errorHttp(400, "El estado de venta no es válido.");
     }
 
     req.datosValidados = {
         estado: estado || null,
-        textoCliente: textoOpcional(textoCliente, 'textoCliente', 80),
-        desde: fechaOpcional(desde, 'desde'),
-        hasta: fechaOpcional(hasta, 'hasta')
+        textoCliente: textoOpcional(textoCliente, "textoCliente", 80),
+        desde: fechaOpcional(desde, "desde"),
+        hasta: fechaOpcional(hasta, "hasta")
     };
 
     next();
@@ -121,24 +116,24 @@ function validarBusquedaVentas(req, res, next) {
 function validarRegistroVenta(req, res, next) {
     const { IdCliente, Detalle } = req.body || {};
 
-    const idCliente = enteroPositivo(IdCliente, 'IdCliente');
+    const idCliente = enteroPositivo(IdCliente, "IdCliente");
 
     if (!Array.isArray(Detalle)) {
-        throw errorHttp(400, 'Detalle debe ser un arreglo de libros.');
+        throw errorHttp(400, "Detalle debe ser un arreglo de libros.");
     }
 
     const detalle = Detalle.map(item => {
         if (
             item === null ||
-            typeof item !== 'object' ||
+            typeof item !== "object" ||
             Array.isArray(item)
         ) {
-            throw errorHttp(400, 'El detalle contiene un renglón inválido.');
+            throw errorHttp(400, "El detalle contiene un renglón inválido.");
         }
 
         return {
-            IdLibro: enteroPositivo(item.IdLibro, 'IdLibro'),
-            Cantidad: enteroPositivo(item.Cantidad, 'Cantidad')
+            IdLibro: enteroPositivo(item.IdLibro, "IdLibro"),
+            Cantidad: enteroPositivo(item.Cantidad, "Cantidad")
         };
     });
 
@@ -151,11 +146,11 @@ function validarRegistroVenta(req, res, next) {
 }
 
 function validarCambioEstado(req, res, next) {
-    const idVenta = enteroPositivo(req.params.id, 'IdVenta');
+    const idVenta = enteroPositivo(req.params.id, "IdVenta");
     const nuevoEstado = req.body?.NuevoEstado;
 
-    if (!['listo', 'entregado', 'cancelado'].includes(nuevoEstado)) {
-        throw errorHttp(400, 'El nuevo estado no es válido.');
+    if (!["listo", "entregado", "cancelado"].includes(nuevoEstado)) {
+        throw errorHttp(400, "El nuevo estado no es válido.");
     }
 
     req.datosValidados = {
@@ -166,10 +161,12 @@ function validarCambioEstado(req, res, next) {
     next();
 }
 
-function errorHandler(error, req, res, next) {
+function manejadorErrores(error, req, res, next) {
     if (res.headersSent) {
         return next(error);
     }
+
+    registrarError(error, req);
 
     console.error(error);
 
@@ -180,7 +177,7 @@ function errorHandler(error, req, res, next) {
     let estado = Number(error.status || error.statusCode);
 
     if (!Number.isInteger(estado) || estado < 400 || estado > 599) {
-        if ([50002, 50007, 50010].includes(numero)) {
+        if (NO_EXISTE.includes(numero)) {
             estado = 404;
         } else if (numero >= 50001 && numero <= 50012) {
             estado = 400;
@@ -188,9 +185,9 @@ function errorHandler(error, req, res, next) {
             estado = 500;
         } else if ([2601, 2627, 547].includes(numero)) {
             estado = 409;
-        } else if (error.type === 'entity.parse.failed') {
+        } else if (error.type === "entity.parse.failed") {
             estado = 400;
-        } else if (error.type === 'entity.too.large') {
+        } else if (error.type === "entity.too.large") {
             estado = 413;
         } else {
             estado = 500;
@@ -200,20 +197,28 @@ function errorHandler(error, req, res, next) {
     let mensaje = error.message;
 
     if (estado === 500) {
-        mensaje = 'Error interno del servidor.';
-    } else if (error.type === 'entity.parse.failed') {
-        mensaje = 'El cuerpo de la solicitud debe contener un JSON válido.';
-    } else if (error.type === 'entity.too.large') {
-        mensaje = 'El cuerpo de la solicitud supera el tamaño permitido.';
+        mensaje = "Error interno del servidor.";
+    } else if (error.type === "entity.parse.failed") {
+        mensaje = "El cuerpo de la solicitud debe contener un JSON válido.";
+    } else if (error.type === "entity.too.large") {
+        mensaje = "El cuerpo de la solicitud supera el tamaño permitido.";
     } else if ([2601, 2627, 547].includes(numero)) {
-        mensaje = 'La operación no cumple las restricciones de la base de datos.';
+        mensaje = "La operación no cumple las restricciones de la base de datos.";
     }
 
-    res.status(estado).json({ mensaje });
+    return res.status(estado).json({ mensaje });
 }
 
-module.exports = errorHandler;
-module.exports.validarBusquedaLibros = validarBusquedaLibros;
-module.exports.validarBusquedaVentas = validarBusquedaVentas;
-module.exports.validarRegistroVenta = validarRegistroVenta;
-module.exports.validarCambioEstado = validarCambioEstado;
+function rutaNoEncontrada(req, res) {
+    res.status(404).json({
+        mensaje: `No existe la ruta ${req.method} ${req.originalUrl}.`
+    });
+}
+
+module.exports = {
+    validarBusquedaVentas,
+    validarRegistroVenta,
+    validarCambioEstado,
+    manejadorErrores,
+    rutaNoEncontrada
+};

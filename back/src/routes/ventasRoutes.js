@@ -1,10 +1,19 @@
+
 const router = require('express').Router();
 const controller = require('../controllers/ventasController');
 const asyncHandler = require('../middlewares/asyncHandler');
+
 const {
     validarRegistroVenta,
-    validarCambioEstado
+    validarCambioEstado,
+    validarBusquedaVentas
 } = require('../middlewares/errores');
+
+router.get(
+    '/',
+    asyncHandler(validarBusquedaVentas),
+    asyncHandler(controller.obtenerVentas)
+);
 
 router.post(
     '/',
