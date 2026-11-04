@@ -1,5 +1,5 @@
 const service = require('../services/ventasService');
-const { errorHttp, enteroPositivo } = require('../middlewares/validaciones');
+const { errorHttp, enteroPositivo } = require('../middlewares/logger');
 async function registrarVenta(req, res) {
     const { IdCliente, Detalle } = req.body || {};
     const idCliente = enteroPositivo(IdCliente, 'IdCliente');
