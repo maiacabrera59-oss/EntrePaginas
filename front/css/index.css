@@ -240,6 +240,62 @@ footer {
 }
 footer span { font-weight: 300; color: var(--texto-suave); font-size: .85rem; }
 
+/* Sugerencias del buscador de libros */
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    margin-top: 5px;
+    background: white;
+    border: 1px solid #dce1eb;
+    border-radius: 10px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.suggestions[hidden] {
+    display: none;
+}
+
+.suggestion-item {
+    display: flex;
+    width: 100%;
+    padding: 12px 14px;
+    border: none;
+    border-bottom: 1px solid #edf0f5;
+    background: white;
+    color: #1a237e;
+    text-align: left;
+    cursor: pointer;
+}
+
+.suggestion-item:hover,
+.suggestion-item:focus {
+    background: #f0f2fa;
+    outline: none;
+}
+
+.suggestion-item span {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.suggestion-item small {
+    color: #697386;
+    font-size: 12px;
+}
+
+.suggestion-empty {
+    padding: 14px;
+    color: #697386;
+    font-size: 13px;
+}
+
+
 /* ---------- Animaciones ---------- */
 @keyframes subir { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: none; } }

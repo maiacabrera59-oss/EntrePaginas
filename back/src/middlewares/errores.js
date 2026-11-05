@@ -113,6 +113,34 @@ function validarBusquedaVentas(req, res, next) {
     next();
 }
 
+// Validación de búsqueda de libros
+function validarBusquedaLibros(req, res, next) {
+    const { texto, idCategoria, soloConStock } = req.query;
+
+    let categoria = null;
+    let stock = null;
+
+    if (idCategoria !== undefined && idCategoria !== "") {
+        categoria = enteroPositivo(idCategoria, "idCategoria");
+    }
+
+    if (soloConStock !== undefined && soloConStock !== "") {
+        if (soloConStock !== "true" && soloConStock !== "false") {
+            throw errorHttp(400, "soloConStock debe ser true o false.");
+        }
+
+        stock = soloConStock === "true";
+    }
+
+    req.datosValidados = {
+        texto: textoOpcional(texto, "texto", 80),
+        idCategoria: categoria,
+        soloConStock: stock
+    };
+
+    next();
+}
+
 function validarRegistroVenta(req, res, next) {
     const { IdCliente, Detalle } = req.body || {};
 
@@ -216,6 +244,7 @@ function rutaNoEncontrada(req, res) {
 }
 
 module.exports = {
+    validarBusquedaLibros,
     validarBusquedaVentas,
     validarRegistroVenta,
     validarCambioEstado,
