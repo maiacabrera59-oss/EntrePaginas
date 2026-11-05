@@ -236,10 +236,19 @@ input[type="checkbox"] { width: 1.1rem; height: 1.1rem; padding: 0; accent-color
 
 .book-title {
   margin: 0 0 1.4rem;
-  font-family: var(--serif); font-size: 1.45rem; font-weight: 600; line-height: 1.25;
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.25;
   color: var(--verde-800);
   overflow-wrap: anywhere;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
   min-height: calc(1.25em * 2); /* reserva 2 líneas para alinear las tarjetas */
 }
 
