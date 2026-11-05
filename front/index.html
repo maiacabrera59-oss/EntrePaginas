@@ -51,8 +51,11 @@
                     <span id="cantidad" class="muted"></span>
                 </div>
                 <form id="filtros" class="filters">
-                    <label class="search">Buscar un libro
-                        <input name="texto" placeholder="Título, autor o código…" maxlength="80">
+                    <label class="search" style="position: relative;">
+                        Buscar un libro
+                        <input id="buscarLibro" name="texto" placeholder="Título, autor o código…" maxlength="80"
+                            autocomplete="off" aria-autocomplete="list" aria-controls="sugerenciasLibros">
+                        <div id="sugerenciasLibros" class="suggestions" role="listbox" hidden></div>
                     </label>
                     <label>Categoría
                         <select name="idCategoria" id="categorias">
