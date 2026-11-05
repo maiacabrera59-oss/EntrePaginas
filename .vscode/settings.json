@@ -1,7 +1,7 @@
-{
-    "liveServer.settings.ignoreFiles": [
-        "**/logs/**",
-        "**/node_modules/**",
-        "**/.env"
-    ]
+ { 
+      "liveServer.settings.ignoreFiles": [ 
+           "**/logs/**", 
+          "**/node_modules/**", 
+           "**/.env" 
+       ] 
 }

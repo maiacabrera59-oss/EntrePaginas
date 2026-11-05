@@ -1,6 +1,41 @@
 import { escapar as e, moneda } from '../comun.js';
-// Portadas tipográficas propias: no dependen de imágenes ni servicios externos.
+
 export function tarjetaLibro(libro, cantidad = 0) {
- const disponible = libro.Stock > cantidad;
- return `<article class="book-card"><div class="cover cover-${Number(libro.IdLibro)%5}" aria-hidden="true"><span class="cover-category">${e(libro.Categoria)}</span><span class="cover-title">${e(libro.Titulo)}</span><span class="cover-ornament">✳</span><span class="cover-author">${e(libro.Autor)}</span></div><div class="book-info"><span class="category">${e(libro.Categoria)}</span><h3>${e(libro.Titulo)}</h3><p>${e(libro.Autor)} · ${e(libro.Editorial)}</p><div class="book-bottom"><strong>${moneda(libro.Precio)}</strong><span class="stock">${libro.Stock > 0 ? `${e(libro.Stock)} disponibles` : 'Sin stock'}</span></div><button class="button add" data-add="${Number(libro.IdLibro)}" ${disponible ? '' : 'disabled'}>${disponible ? '＋ Agregar a la venta' : 'Sin unidades disponibles'}</button></div></article>`;
+  const disponible = libro.Stock > cantidad;
+  const stockClase = libro.Stock <= 0 ? 'sin' : libro.Stock <= 5 ? 'bajo' : 'ok';
+  const stockTexto = libro.Stock > 0
+    ? `${e(libro.Stock)} ${Number(libro.Stock) === 1 ? 'unidad' : 'unidades'}`
+    : 'Sin stock';
+
+  return `<article class="book-card">
+   
+
+    <h3 class="book-title">${e(libro.Titulo)}</h3>
+
+    <dl class="book-data">
+      <div>
+        <dt>Autor</dt>
+        <dd>${e(libro.Autor)}</dd>
+      </div>
+      <div>
+        <dt>Editorial</dt>
+        <dd>${e(libro.Editorial)}</dd>
+      </div>
+    </dl>
+
+    <div class="book-bottom">
+      <div class="price-box">
+        <span class="label">Precio</span>
+        <strong>${moneda(libro.Precio)}</strong>
+      </div>
+      <div class="stock-box">
+        <span class="label">Disponibilidad</span>
+        <span class="stock stock-${stockClase}">${stockTexto}</span>
+      </div>
+    </div>
+
+    <button class="button add" data-add="${Number(libro.IdLibro)}" ${disponible ? '' : 'disabled'}>
+      ${disponible ? '＋ Agregar a la venta' : 'Sin unidades disponibles'}
+    </button>
+  </article>`;
 }
