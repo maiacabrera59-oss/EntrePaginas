@@ -1,4 +1,4 @@
-import { escapar as e, moneda } from '../comun.js';
+import { escapar as e, moneda } from './comun.js';
 
 export function tarjetaLibro(libro, cantidad = 0) {
   const disponible = libro.Stock > cantidad;

@@ -1,4 +1,4 @@
-import { escapar as e, moneda, fecha } from '../comun.js';
+import { escapar as e, moneda, fecha } from './comun.js';
 import { estadoVenta } from './estadoVenta.js';
 export function filaVenta(v) {
  const siguiente = v.Estado === 'preparación' ? 'listo' : v.Estado === 'listo' ? 'entregado' : null;

@@ -1,4 +1,4 @@
-import { escapar as e } from '../comun.js';
+import { escapar as e } from './comun.js';
 export function resumenVenta(detalle, libros) {
  if (!detalle.length) return '<div class="empty basket"><span>▤</span><h3>Una historia por elegir</h3><p>Agregá libros del catálogo<br>para comenzar la venta.</p></div>';
  const unidades = detalle.reduce((n, item) => n + item.Cantidad, 0);
