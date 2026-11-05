@@ -91,7 +91,9 @@ function mostrarSugerencias(texto) {
     }).slice(0, 8);
 
     if (!coincidencias.length) {
-        sugerencias.innerHTML = '<div class="suggestion-empty">No encontramos coincidencias.</div>';
+        sugerencias.innerHTML =
+            '<div class="suggestion-empty">No encontramos coincidencias.</div>';
+
         sugerencias.hidden = false;
         return;
     }
@@ -148,14 +150,11 @@ formulario.addEventListener('submit', async event => {
     event.preventDefault();
 
     const actual = ++secuencia;
+
     sugerencias.hidden = true;
     catalogo.setAttribute('aria-busy', 'true');
 
     const filtros = Object.fromEntries(new FormData(formulario));
-
-    if (!formulario.querySelector('[name="soloConStock"]').checked) {
-        filtros.soloConStock = '';
-    }
 
     try {
         const resultado = await api.buscarLibros(filtros);
@@ -176,6 +175,21 @@ formulario.addEventListener('submit', async event => {
             catalogo.removeAttribute('aria-busy');
         }
     }
+});
+
+// Limpiar los filtros y mostrar nuevamente todos los libros.
+formulario.addEventListener('reset', () => {
+    ++secuencia;
+
+    sugerencias.innerHTML = '';
+    sugerencias.hidden = true;
+
+    mensaje('');
+
+    visibles = libros;
+    pintar();
+
+    catalogo.removeAttribute('aria-busy');
 });
 
 // Agregar, modificar o quitar libros de la venta.
@@ -241,16 +255,13 @@ registrar.addEventListener('click', async () => {
         try {
             libros = await api.listarLibros();
 
-            const filtros = Object.fromEntries(new FormData(formulario));
-
-            if (!formulario.querySelector('[name="soloConStock"]').checked) {
-                filtros.soloConStock = '';
-            }
-
-            visibles = await api.buscarLibros(filtros);
+            visibles = await api.buscarLibros(
+                Object.fromEntries(new FormData(formulario))
+            );
 
         } catch {
             visibles = [];
+
             mensaje(
                 `Venta #${venta.IdVenta} registrada. Actualizá la página para consultar el stock actualizado.`
             );

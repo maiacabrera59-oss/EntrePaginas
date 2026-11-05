@@ -50,6 +50,7 @@
                     <h2>Catálogo de libros</h2>
                     <span id="cantidad" class="muted"></span>
                 </div>
+
                 <form id="filtros" class="filters">
                     <label class="search" style="position: relative;">
                         Buscar un libro
@@ -57,16 +58,22 @@
                             autocomplete="off" aria-autocomplete="list" aria-controls="sugerenciasLibros">
                         <div id="sugerenciasLibros" class="suggestions" role="listbox" hidden></div>
                     </label>
+
                     <label>Categoría
                         <select name="idCategoria" id="categorias">
                             <option value="">Todas las categorías</option>
                         </select>
                     </label>
-                    <button class="button secondary">Buscar</button>
-                    <label class="check">
-                        <input type="checkbox" name="soloConStock" value="true"> Solo con stock
-                    </label>
+
+                    <button type="submit" class="button secondary">
+                        Buscar
+                    </button>
+
+                    <button type="reset" class="button secondary">
+                        Limpiar filtros
+                    </button>
                 </form>
+
                 <div id="catalogo" class="book-grid">
                     <p class="empty">Cargando el catálogo…</p>
                 </div>
@@ -77,13 +84,21 @@
                     <h2>Tu venta</h2>
                     <span class="step">01</span>
                 </div>
+
                 <label for="cliente">Cliente</label>
                 <select id="cliente">
                     <option value="">Seleccioná un cliente</option>
                 </select>
+
                 <div id="resumen"></div>
-                <button id="registrar" class="button wide" disabled>Registrar venta <span>↗</span></button>
-                <p class="footnote">El importe definitivo se calcula al registrar la venta.</p>
+
+                <button id="registrar" class="button wide" disabled>
+                    Registrar venta <span>↗</span>
+                </button>
+
+                <p class="footnote">
+                    El importe definitivo se calcula al registrar la venta.
+                </p>
             </aside>
         </div>
 
