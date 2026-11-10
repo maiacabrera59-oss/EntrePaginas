@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const categoriasRoutes = require('./routes/categoriasRoutes');
 const clientesRoutes = require('./routes/clientesRoutes');
@@ -24,13 +25,6 @@ app.use(logger);
 app.use(cors());
 app.use(express.json({ limit: '100kb' }));
 
-// Ruta principal
-app.get('/', (req, res) => {
-    res.json({
-        mensaje: 'API funcionando'
-    });
-});
-
 // Rutas de la API
 app.use('/api/categorias', categoriasRoutes);
 app.use('/api/clientes', clientesRoutes);
@@ -39,7 +33,12 @@ app.use('/api', gestionRoutes);
 app.use('/api/ventas', ventasRoutes);
 
 // Archivos estáticos del frontend
-// app.use(express.static(path.join(__dirname, '../../front')));
+app.use(express.static(path.join(__dirname, '../../front')));
+
+// Página principal
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../front/index.html'));
+});
 
 // Manejo de rutas inexistentes
 app.use(rutaNoEncontrada);
