@@ -358,3 +358,27 @@ footer span { font-weight: 300; color: var(--texto-suave); font-size: .85rem; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Precio y disponibilidad se acomodan al espacio disponible */
+.book-bottom {
+  flex-wrap: wrap;
+  gap: 0.8rem 1rem;
+}
+
+.price-box,
+.stock-box {
+  min-width: 0;
+}
+
+.stock-box {
+  margin-left: auto;
+}
+
+.price-box strong,
+.stock {
+  white-space: nowrap;
+}
+
+.stock::before {
+  flex-shrink: 0;
+}
